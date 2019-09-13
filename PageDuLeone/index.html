@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+  </head>
+  <body>
+
+    <header>
+
+      <h6 align="center"> Topo bem bonitinho </h6>
+
+    </header>
+
+    <nav>
+      <li><a href="index.html"> Home</a></li>
+      <li><a href="index.html"> Contato</a></li>
+      <li><a href="index.html"> Imagens</a></li>
+    </nav>
+
+<content>
+  <div class="col-md-12" align ="center">
+    <div class="form-group">
+      <h2>Posso tirar carteira?</h2>
+
+      <div class="popup" onclick="popUpy()">
+
+        <label class="control-label"></label>
+        <input id="idade" name="idade" type="number" placeholder="Informe sua idade." class="form-control input-md">
+
+        <span class="popuptext" id="myPopup"></span>
+
+      </div>
+    </div>
+    <button onclick="validarIdade(),popUpy()" id="singlebutton" name="singlebutton" class="btn btn-default">Validar</button>
+  </div>
+</content>
+
+    <footer> 
+      Parte de baixo da página.
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
