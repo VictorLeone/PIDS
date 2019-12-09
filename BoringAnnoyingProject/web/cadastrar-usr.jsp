@@ -9,7 +9,7 @@
         <script type="text/javascript" src="http://www.godtur.no/godtur/js/jquery-ui-1.8.18.custom.min.js"></script>
         <link href="css/popup.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  />
-        <title>SignMe Up: Cadastro</title>
+        <title>Door Flex</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'>
@@ -33,7 +33,7 @@
             </a>
         </nav>
 
-        <div class="card" style="width: 40%; margin: auto; min-width:350px;">
+        <div class="card cadastro" style="width: 40%; margin: auto; min-width:350px;">
 
             <div class="cardContainer"> 
 
@@ -92,10 +92,11 @@
                         </div>
                         <div class="text-center">
                             <!--                                <button class="btn botao" data-toggle="modal" data-target="#myModal">Cadastrar</button>-->
-                            <button class="btnCad" id="cadbt">Cadastrar</button>
+                            <button class=" btn botao" id="cadbt">Cadastrar</button>
                         </div>
-                                </form>
+                       </form>
                 </div>
+                        
             </div>
         </div>
         <script src="js/jquery.min.js"></script>

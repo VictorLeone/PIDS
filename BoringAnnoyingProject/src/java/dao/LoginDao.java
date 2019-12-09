@@ -33,4 +33,23 @@ public class LoginDao {
         preparedStatement.close();
         return result;
     }
+    
+        public boolean isAdmin(Login login) throws SQLException {
+
+        boolean result = false;
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from users where nickname=? and u_pass=? and adm = true;");
+
+        preparedStatement.setString(1, login.getLg_nickname());
+        preparedStatement.setString(2, login.getLg_password());
+
+        ResultSet rs = preparedStatement.executeQuery();
+
+        if (rs.next()) {
+            result = true;
+        }
+        
+        rs.close();
+        preparedStatement.close();
+        return result;
+    }
 }

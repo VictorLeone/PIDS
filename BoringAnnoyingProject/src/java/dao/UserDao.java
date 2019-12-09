@@ -33,7 +33,6 @@ public class UserDao {
             preparedStatement.setString(3, user.getPassword());
             preparedStatement.setString(4, user.getFirstName());
             preparedStatement.setString(5, user.getLastName());
-            System.out.println(user.getImgDir());
             preparedStatement.setDate(6, new java.sql.Date(user.getDob().getTime()));
             preparedStatement.setString(7, user.getAdress());
             preparedStatement.setString(8, user.getPhone());
@@ -62,7 +61,7 @@ public class UserDao {
     public void updateUser(User user) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("update users set user_document=?, nickname=?, u_pass=?, firstname=?, lastname=?, dob=?, adress=?, phone=?, email=?, usr_img_dir=?" +
+                    .prepareStatement("update users set user_document=?, nickname=?, u_pass=?, firstname=?, lastname=?, dob=?, adress=?, phone=?, email=?, user_img_dir=?" +
                             "where userid=?");
             // Parameters start with 1
             preparedStatement.setString(1, user.getDocument());
@@ -87,7 +86,7 @@ public class UserDao {
         List<User> listaDeUsuario = new ArrayList<User>();
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from users");
+            ResultSet rs = stmt.executeQuery("select * from users where nickname not like 'admin'");
             while (rs.next()) {
                 User user = new User();
                 user.setUserid(rs.getInt("userid"));
@@ -154,19 +153,48 @@ public class UserDao {
             if (rs.next()) {
                 user.setUserid(rs.getInt("userid"));
                 user.setNickname(rs.getString("nickname"));
-                user.setPassword(rs.getString("password"));
-                user.setDocument(rs.getString("document"));
+                user.setPassword(rs.getString("u_pass"));
+                user.setDocument(rs.getString("user_document"));
                 user.setFirstName(rs.getString("firstname"));
                 user.setLastName(rs.getString("lastname"));
                 user.setDob(rs.getDate("dob"));
                 user.setAdress(rs.getString("adress"));
                 user.setPhone(rs.getString("phone"));
                 user.setEmail(rs.getString("email"));
+                user.setImgDir(rs.getString("user_img_dir"));
+                user.setAdmin(rs.getBoolean("adm"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        return user;
+    }
+    
+       public User getUserData(String nickname) {
+        User user = new User();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from users where nickname=?");
+            preparedStatement.setString(1, nickname);
+            ResultSet rs = preparedStatement.executeQuery();
+             
+            if (rs.next()) {
+                user.setUserid(rs.getInt("userid"));
+                user.setNickname(rs.getString("nickname"));
+                user.setPassword(rs.getString("u_pass"));
+                user.setDocument(rs.getString("user_document"));
+                user.setFirstName(rs.getString("firstname"));
+                user.setLastName(rs.getString("lastname"));
+                user.setDob(rs.getDate("dob"));
+                user.setAdress(rs.getString("adress"));
+                user.setPhone(rs.getString("phone"));
+                user.setEmail(rs.getString("email"));
+                user.setImgDir(rs.getString("user_img_dir"));
+                user.setAdmin(rs.getBoolean("adm"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return user;
     }
 }

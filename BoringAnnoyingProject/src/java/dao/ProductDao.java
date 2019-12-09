@@ -56,11 +56,25 @@ public class ProductDao {
             e.printStackTrace();
         }
     }
+    
+        public void deletePdFromUser(int usrid, int pdid) {
+        try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("delete from user_has_pd where fk_userid=? and fk_prdid=?");
+            // Parameters start with 1
+            preparedStatement.setInt(1, usrid);
+            preparedStatement.setInt(2, pdid);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void updatePd(Product product) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("update product set pd_name=?, pd_price=?, pd_desc=?, pd_img=?" +
+                    .prepareStatement("update products set pd_name=?, pd_price=?, pd_desc=?, pd_img=?" +
                             "where pd_id=?");
             // Parameters start with 1
             preparedStatement.setString(1, product.getPdName());
@@ -74,7 +88,23 @@ public class ProductDao {
             e.printStackTrace();
         }
     }
+    public void addToUser(int user, int product) {
+        try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("insert into user_has_pd(fk_userid,fk_prdid) values (?,?)");
+            // Parameters start with 1
+            preparedStatement.setInt(1, user);
+            preparedStatement.setInt(2, product);
 
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
     public List<Product> getAllPd() {
         List<Product> listaDeProdutos = new ArrayList<Product>();
         try {
@@ -95,6 +125,31 @@ public class ProductDao {
 
         return listaDeProdutos;
     }
+    
+    
+    public List<Product> getAllUserPd(String nickname) {
+        List<Product> listaDeProdutosDoUsuario = new ArrayList<Product>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from products where pd_id in(select fk_prdid from user_has_pd where fk_userid in (select userid from users where nickname = ?))");
+            preparedStatement.setString(1, nickname);
+            System.out.print(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product();
+                product.setPdid(rs.getInt("pd_id"));
+                product.setPdName(rs.getString("pd_name"));
+                product.setPdPrice(rs.getString("pd_price"));
+                product.setPdDesc(rs.getString("pd_desc"));
+                product.setPdImg(rs.getString("pd_img"));
+                listaDeProdutosDoUsuario.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listaDeProdutosDoUsuario;
+    }
 
     public Product getPdById(int pdid) {
         Product product = new Product();
@@ -108,6 +163,7 @@ public class ProductDao {
                 product.setPdName(rs.getString("pd_name"));
                 product.setPdPrice(rs.getString("pd_price"));
                 product.setPdDesc(rs.getString("pd_desc"));
+                product.setPdImg(rs.getString("pd_img"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

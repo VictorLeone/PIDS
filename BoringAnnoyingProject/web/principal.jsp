@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NOT WORKING PROPERLY</title>
+        <title>SignMe UP!™</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'>
@@ -12,62 +12,83 @@
 
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
-    
+
     </head>
     <body id="main">
         <div class="container-fluid">
             <nav class="navbar">
-                <a class="navbar-brand" href="principal.html">
                     <img src="images/logo-branca.png" alt="Door Flex" class="logo-nav">
-                </a>
+          
             </nav>
 
             <div class="row" id="row">
                 <div class="col-3">
-                    <div class="perfil fixed-photo">
-                        <div>
-                            <img src="images/perfil.png">
+
+                    <div class="profile-sidebar">
+
+                        <div class="profile-userpic" name="teste">
+                            <img id="img" src="${currentUser.imgDir}" class="img-responsive" alt="">
                         </div>
-                        <div class="center">
-                            <p><b>Nome: </b> Testando limites de layout</p>
-                            <p><b>Endereço: </b> 704 Bloco B</p>	
-                        </div>				
+
+                        <div class="profile-usertitle">
+                            <div id="userid" class="profile-usertitle-name" style="display:none;">
+                                ${currentUser.userid}
+                            </div>
+                            <div id="nome" class="profile-usertitle-name">
+                                ${currentUser.firstName}
+                            </div>
+                            <div id="sobrenome" class="profile-usertitle-job">
+                                ${currentUser.lastName}
+                            </div>
+                            <div id="nickname" class="profile-usertitle-job" style="display:none;">
+                                ${currentUser.nickname}
+                            </div>
+                        </div>
+
                     </div>
+
+
                     <div class="botoes text-center fixed-buttons">
-                        <a href="cadastrar-visitante.html"><button type="button" class="btn botao">Cadastrar Visitantes</button></a>
-                        <a href="lista-visitantes.html"><button type="button" class="btn botao">Lista de Visitantes</button></a>
-                        <a href="gerar-chave.html"><button type="button" class="btn botao">Gerar Chaves</button></a>
-                        <a href="ultimas-visitas.html"><button type="button" class="btn botao">Últimas Visitas</button></a>
-                        <a href="index.html"><button type="button" class="btn botao">Sair</button></a>
+                        <a href="ProductController?action=listPd"><button type="button" class="btn botao">Assinar</button></a>
+                        <a id="testeform" href=""><button type="button" class="btn botao">Editar Perfil</button></a>
+                        <a href="index.jsp"><button onclick="onLogOut()" type="button" class="btn botao">Sair</button></a>
                     </div>
 
                 </div>
                 <div class="col-9 main-image">
                     <div class="row">
-                        <c:forEach items="${users}" var="user">
-                            <div class="col-md-3 col-lg-5 px-0" style="max-width:210px">
-                                <div class="card">
-                                    <h5><img src="<c:out value="${user.imgDir}" />" alt="Avatar" style="width:197px;height:197px;opacity:0.85;padding:9px;"></h5>
-                                    <div class="cardContainer">
-                                        <h5><b><c:out value="${user.firstName}" /></b></h5>    
-                                        <p><fmt:formatDate pattern="dd/MM/yyyy" value="${user.dob}" /></p>    
-                                    </div>
+                        <div class="window-title">
+                            <h1 style="color:white">Meus SignedPackages</h1>
+                        </div>
+                        <c:forEach items="${products}" var="product">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="<c:out value="${product.pdImg}" />" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title"><b><c:out value="${product.pdName}" /></b></h5>
+                                    <h6><b><c:out value="R$ ${product.pdPrice},00" /></b></h6>
+                                    <p class="card-text"><c:out value="${product.pdDesc}" /></p>
                                 </div>
-                            </div>
+
+                                <div class="card-body">
+                                    <a id="delreq${product.pdid}" onmouseover="del(${product.pdid})"><img class="icon" src="images/delete.png">Cancelar</a>
+
+                                </div>
+                            </div> 
                         </c:forEach>
                     </div>
-
-
                 </div>
             </div>
-        </div>
 
-        <script src="js/jquery.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script type="text/javascript">
-            h = (window.innerHeight - 80).toString() + "px";
-            document.getElementById("row").style.height = h;
-        </script>
+            <script src="js/jquery.min.js"></script>
+            <script src="js/popper.min.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <script src="js/localstorage.js"></script>
+            <script>saveStuff()</script>
+            <script>loadStuff()</script>
+ 
+            <script type="text/javascript">
+                h = (window.innerHeight - 80).toString() + "px";
+                document.getElementById("row").style.height = h;
+            </script>
     </body>
 </html>

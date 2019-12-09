@@ -22,7 +22,7 @@ public class DbUtil {
                 Properties prop = new Properties();
                 
                 String user = "postgres";
-                String password = "admin";
+                String password = "123456";
                 //Class.forName("com.mysql.jdbc.Driver"); // Para quem for usar MySql
                 Class.forName("org.postgresql.Driver");// Para quem for usar Postgres
                 //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/projetoIntegrador", user, password);// Para quem for usar MySql

@@ -19,8 +19,10 @@ import model.User;
 @WebServlet(name = "Usuarios", urlPatterns = {"/UserController"})
 public class UserController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static String INSERT_OR_EDIT = "/user.jsp";
-    private static String LIST_USER = "/principal.jsp";
+    private static String INSERT_OR_EDIT = "/edit-usr.jsp";
+    private static String USER_EDIT = "/usr-edit.jsp";
+    private static String LIST_USER = "/view-usr.jsp";
+    private static String INDEX = "/index.jsp";
     private UserDao dao;
 
     public UserController() {
@@ -42,9 +44,19 @@ public class UserController extends HttpServlet {
             int userId = Integer.parseInt(request.getParameter("userId"));
             User user = dao.getUserById(userId);
             request.setAttribute("user", user);
+        } else if (action.equalsIgnoreCase("userEdit")){
+            forward = USER_EDIT;
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            User user = dao.getUserById(userId);
+            request.setAttribute("user", user);
         } else if (action.equalsIgnoreCase("listUser")){
             forward = LIST_USER;
             request.setAttribute("users", dao.getAllUsers());
+            } else if (action.equalsIgnoreCase("update")){
+            forward = INSERT_OR_EDIT;
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            User user = dao.getUserById(userId);
+            request.setAttribute("user", user);
         } else {
             forward = INSERT_OR_EDIT;
         }
@@ -63,7 +75,6 @@ public class UserController extends HttpServlet {
         try {
             Date dob=null;
             String teste = request.getParameter("dob");
-            System.out.println(teste);
             if(request.getParameter("dob")!=null){
                 dob = new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dob"));
             }
@@ -79,7 +90,7 @@ public class UserController extends HttpServlet {
         user.setPhone(request.getParameter("phone"));
         user.setEmail(request.getParameter("email"));
         user.setImgDir(request.getParameter("profilepic"));
-        String userid = request.getParameter("userid");
+        String userid = request.getParameter("usrid");
         if(userid == null || userid.isEmpty())
         {
             dao.addUser(user);
@@ -89,7 +100,7 @@ public class UserController extends HttpServlet {
             user.setUserid(Integer.parseInt(userid));
             dao.updateUser(user);
         }
-        RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
+        RequestDispatcher view = request.getRequestDispatcher(INDEX);;
         request.setAttribute("users", dao.getAllUsers());
         view.forward(request, response);
     }
